@@ -115,11 +115,11 @@ export default function PagesView({ showNotification }: { showNotification: (msg
                     <table className="w-full text-left border-collapse min-w-[1000px]">
                         <thead>
                             <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 text-sm">
-                                <th className="py-4 px-5 font-semibold w-1/4">ชื่อเพจ</th>
-                                <th className="py-4 px-5 font-semibold w-40">ประเภท</th>
-                                <th className="py-4 px-5 font-semibold">URL</th>
-                                <th className="py-4 px-5 font-semibold w-40">สถานะ</th>
-                                <th className="py-4 px-5 font-semibold w-64">หมายเหตุ</th>
+                                <th className="py-4 px-5 font-semibold w-1/5">ชื่อเพจ</th>
+                                <th className="py-4 px-5 font-semibold w-32">ประเภท</th>
+                                <th className="py-4 px-5 font-semibold w-1/3">URL</th>
+                                <th className="py-4 px-5 font-semibold w-32">สถานะ</th>
+                                <th className="py-4 px-5 font-semibold w-48">หมายเหตุ</th>
                                 <th className="py-4 px-5 font-semibold w-24 text-center">จัดการ</th>
                             </tr>
                         </thead>
