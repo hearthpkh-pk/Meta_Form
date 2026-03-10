@@ -10,6 +10,8 @@ export interface Account {
     passmail?: string;
     twoPin?: string;
     url?: string;
+    note?: string;
+    comment?: string;
     pagesManaged: string[]; // Array of Page IDs
     status: Status;
     showPassword?: boolean; // Client-side state only
