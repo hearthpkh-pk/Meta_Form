@@ -7,8 +7,8 @@
 
   /* Typography / Fonts */
   --font-sans: var(--font-noto-sans-thai), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
-  --font-number: var(--font-inter), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-heading: var(--font-outfit), var(--font-noto-sans-thai), ui-sans-serif, system-ui, sans-serif;
+  --font-number: var(--font-inter), var(--font-noto-sans-thai), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
