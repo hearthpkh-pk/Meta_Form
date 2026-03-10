@@ -14,6 +14,7 @@ export default function PagesView({ showNotification }: { showNotification: (msg
 
     const [newPageName, setNewPageName] = useState('');
     const [newPageUrl, setNewPageUrl] = useState('');
+    const [isFetchingName, setIsFetchingName] = useState(false);
 
     const sortedPages = [...pages].sort((a, b) => (a.order || 0) - (b.order || 0));
 
@@ -38,6 +39,34 @@ export default function PagesView({ showNotification }: { showNotification: (msg
         showNotification('เพิ่มเพจสำเร็จ');
     };
 
+    const handleUrlBlur = async () => {
+        const url = newPageUrl.trim();
+        if (!url || !url.startsWith('http')) return;
+
+        // Only auto-fill if the name is currently empty
+        if (newPageName.trim()) return;
+
+        try {
+            setIsFetchingName(true);
+            const response = await fetch(`/api/fetch-fb-meta?url=${encodeURIComponent(url)}`);
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.title) {
+                    setNewPageName(data.title);
+                    showNotification(`ดึงชื่อเพจอัตโนมัติ: ${data.title}`, 'success');
+                }
+            } else {
+                console.warn('Could not fetch page title automatically.');
+            }
+        } catch (error) {
+            console.warn('Network error or server failed to respond.');
+            // Fail silently, let the user type manually.
+        } finally {
+            setIsFetchingName(false);
+        }
+    };
+
     return (
         <div className="space-y-6 animate-in fade-in duration-300">
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
@@ -46,24 +75,26 @@ export default function PagesView({ showNotification }: { showNotification: (msg
                     <h2 className="text-lg font-semibold text-slate-800">เพิ่มเพจใหม่เข้าระบบ</h2>
                 </div>
                 <div className="p-5 flex flex-col sm:flex-row gap-4 items-end bg-slate-50/50">
-                    <div className="w-full sm:w-1/3">
-                        <label className="block text-sm font-medium text-slate-700 mb-1.5">ชื่อเพจ (Name Page) <span className="text-rose-500">*</span></label>
-                        <input
-                            type="text"
-                            value={newPageName}
-                            onChange={(e) => setNewPageName(e.target.value)}
-                            placeholder="เช่น ร้านเสื้อผ้าแฟชั่น..."
-                            className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                        />
-                    </div>
                     <div className="w-full sm:flex-1">
                         <label className="block text-sm font-medium text-slate-700 mb-1.5">ลิงก์เพจ (URL)</label>
                         <input
                             type="text"
                             value={newPageUrl}
                             onChange={(e) => setNewPageUrl(e.target.value)}
+                            onBlur={handleUrlBlur}
                             placeholder="https://facebook.com/..."
-                            className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                            className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                        />
+                    </div>
+                    <div className="w-full sm:w-1/3">
+                        <label className="block text-sm font-medium text-slate-700 mb-1.5">ชื่อเพจ (Name Page) <span className="text-rose-500">*</span></label>
+                        <input
+                            type="text"
+                            value={newPageName}
+                            onChange={(e) => setNewPageName(e.target.value)}
+                            placeholder={isFetchingName ? "กำลังดึงข้อมูล..." : "เช่น ร้านเสื้อผ้าแฟชั่น..."}
+                            disabled={isFetchingName}
+                            className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all disabled:bg-slate-100 disabled:text-slate-400"
                         />
                     </div>
                     <button
@@ -115,7 +146,7 @@ export default function PagesView({ showNotification }: { showNotification: (msg
                                             <select
                                                 value={page.type}
                                                 onChange={(e) => updatePage(page.id, { type: e.target.value as PageType })}
-                                                className="w-full bg-transparent border border-transparent hover:border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none focus:border-blue-400 focus:bg-white cursor-pointer transition-all"
+                                                className="w-full bg-transparent border border-transparent hover:border-slate-200 rounded-lg px-2 py-1.5 text-sm text-slate-800 outline-none focus:border-blue-400 focus:bg-white cursor-pointer transition-all"
                                             >
                                                 {pageTypes.map(t => <option key={t} value={t}>{t}</option>)}
                                             </select>
@@ -126,7 +157,7 @@ export default function PagesView({ showNotification }: { showNotification: (msg
                                                     type="text"
                                                     value={page.url}
                                                     onChange={(e) => updatePage(page.id, { url: e.target.value })}
-                                                    className="w-full bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded-lg px-2 py-1.5 outline-none text-sm text-blue-600 transition-all truncate"
+                                                    className="w-full bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded-lg px-2 py-1.5 outline-none text-sm text-slate-800 transition-all truncate"
                                                 />
                                                 <button onClick={() => handleCopy(page.url, () => showNotification('คัดลอกสำเร็จ'))} className="text-slate-400 hover:text-blue-600 p-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 bg-slate-100 rounded">
                                                     <Copy size={14} />
@@ -137,7 +168,7 @@ export default function PagesView({ showNotification }: { showNotification: (msg
                                             <select
                                                 value={page.status}
                                                 onChange={(e) => updatePage(page.id, { status: e.target.value as Status })}
-                                                className={`w-full appearance-none border rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider outline-none transition-colors cursor-pointer ${getStatusColor(page.status)}`}
+                                                className={`w-full appearance-none border rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-slate-800 outline-none transition-colors cursor-pointer ${getStatusColor(page.status)}`}
                                             >
                                                 <option value="Active">🟢 Active</option>
                                                 <option value="Warning">🟡 Warning</option>
@@ -151,7 +182,7 @@ export default function PagesView({ showNotification }: { showNotification: (msg
                                                 value={page.comment}
                                                 onChange={(e) => updatePage(page.id, { comment: e.target.value })}
                                                 placeholder="เพิ่มหมายเหตุ..."
-                                                className="w-full bg-transparent border border-transparent hover:border-slate-200 focus:border-blue-400 focus:bg-white focus:ring-1 focus:ring-blue-400 rounded-lg px-2 py-1.5 outline-none text-sm transition-all placeholder:text-slate-300"
+                                                className="w-full bg-transparent border border-transparent hover:border-slate-200 focus:border-blue-400 focus:bg-white focus:ring-1 focus:ring-blue-400 rounded-lg px-2 py-1.5 outline-none text-sm text-slate-800 transition-all placeholder:text-slate-300"
                                             />
                                         </td>
                                         <td className="py-2 px-5 text-center">

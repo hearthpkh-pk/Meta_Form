@@ -57,7 +57,7 @@ export default function SetupView({ showNotification }: { showNotification: (msg
                             value={newType}
                             onChange={(e) => setNewType(e.target.value)}
                             placeholder="เพิ่มประเภทใหม่..."
-                            className="flex-1 border border-slate-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                            className="flex-1 border border-slate-300 rounded-xl px-4 py-2 text-sm text-slate-800 focus:ring-2 focus:ring-blue-500 outline-none"
                             onKeyDown={(e) => e.key === 'Enter' && handleAddType()}
                         />
                         <button onClick={handleAddType} className="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2 rounded-xl text-sm font-medium transition-colors">

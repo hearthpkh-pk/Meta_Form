@@ -105,7 +105,7 @@ export default function AccountsView({ showNotification }: { showNotification: (
                 </div>
                 <div className="p-5 flex flex-col sm:flex-row gap-4 bg-slate-50/50">
                     <textarea
-                        className="flex-1 min-h-[100px] w-full border border-slate-300 rounded-xl p-4 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-y"
+                        className="flex-1 min-h-[100px] w-full border border-slate-300 rounded-xl p-4 text-sm text-slate-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-y"
                         placeholder="วางข้อมูลทีละหลายบรรทัดที่นี่..."
                         value={rawInput}
                         onChange={(e) => setRawInput(e.target.value)}
@@ -153,7 +153,7 @@ export default function AccountsView({ showNotification }: { showNotification: (
                                                 type="text"
                                                 value={acc.uid}
                                                 onChange={(e) => updateAccount(acc.id, { uid: e.target.value })}
-                                                className="w-full bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded px-2 py-1 outline-none text-xs font-mono transition-all"
+                                                className="w-full bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded px-2 py-1 outline-none text-xs font-mono text-slate-800 transition-all"
                                                 placeholder="UID"
                                             />
                                             {acc.url && (
@@ -170,7 +170,7 @@ export default function AccountsView({ showNotification }: { showNotification: (
                                                         type="text"
                                                         value={acc.mail}
                                                         onChange={(e) => updateAccount(acc.id, { mail: e.target.value })}
-                                                        className="flex-1 bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded px-2 py-0.5 outline-none text-sm transition-all"
+                                                        className="flex-1 bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded px-2 py-0.5 outline-none text-sm text-slate-800 transition-all"
                                                     />
                                                     <button onClick={() => handleCopy(acc.mail, () => showNotification('คัดลอกสำเร็จ'))} className="text-slate-300 hover:text-blue-600 p-1 opacity-0 group-hover:opacity-100 transition-opacity"><Copy size={12} /></button>
                                                 </div>
@@ -180,7 +180,7 @@ export default function AccountsView({ showNotification }: { showNotification: (
                                                         type={acc.showPassword ? "text" : "password"}
                                                         value={acc.password}
                                                         onChange={(e) => updateAccount(acc.id, { password: e.target.value })}
-                                                        className="flex-1 bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded px-2 py-0.5 outline-none text-sm transition-all"
+                                                        className="flex-1 bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded px-2 py-0.5 outline-none text-sm text-slate-800 transition-all"
                                                     />
                                                     <button onClick={() => updateAccount(acc.id, { showPassword: !acc.showPassword })} className="text-slate-400 hover:text-slate-600 p-1">
                                                         {acc.showPassword ? <EyeOff size={12} /> : <Eye size={12} />}
@@ -197,7 +197,7 @@ export default function AccountsView({ showNotification }: { showNotification: (
                                                         type={acc.showPassword ? "text" : "password"}
                                                         value={acc.passmail}
                                                         onChange={(e) => updateAccount(acc.id, { passmail: e.target.value })}
-                                                        className="flex-1 bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded px-2 py-0.5 outline-none text-sm transition-all"
+                                                        className="flex-1 bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded px-2 py-0.5 outline-none text-sm text-slate-800 transition-all"
                                                     />
                                                 </div>
                                                 <div className="flex items-center gap-1">
@@ -206,7 +206,7 @@ export default function AccountsView({ showNotification }: { showNotification: (
                                                         type="text"
                                                         value={acc.twoPin}
                                                         onChange={(e) => updateAccount(acc.id, { twoPin: e.target.value })}
-                                                        className="flex-1 bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded px-2 py-0.5 outline-none text-xs font-mono transition-all truncate"
+                                                        className="flex-1 bg-transparent border border-transparent focus:border-blue-300 focus:bg-white rounded px-2 py-0.5 outline-none text-xs font-mono text-slate-800 transition-all truncate"
                                                     />
                                                     <button onClick={() => handleCopy(acc.twoPin || '', () => showNotification('คัดลอกสำเร็จ'))} className="text-slate-300 hover:text-blue-600 p-1 opacity-0 group-hover:opacity-100 transition-opacity"><Copy size={12} /></button>
                                                 </div>
@@ -238,7 +238,7 @@ export default function AccountsView({ showNotification }: { showNotification: (
                                             <select
                                                 value={acc.status}
                                                 onChange={(e) => updateAccount(acc.id, { status: e.target.value as Status })}
-                                                className={`w-full appearance-none border rounded-lg px-3 py-1.5 text-xs font-bold uppercase outline-none transition-colors cursor-pointer ${getStatusColor(acc.status)}`}
+                                                className={`w-full appearance-none border rounded-lg px-3 py-1.5 text-xs font-bold uppercase text-slate-800 outline-none transition-colors cursor-pointer ${getStatusColor(acc.status)}`}
                                             >
                                                 <option value="Active">🟢 Active</option>
                                                 <option value="Rest">🟡 Rest</option>
